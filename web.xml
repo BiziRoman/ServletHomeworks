@@ -33,4 +33,8 @@
         <servlet-name>UserInfoServlet</servlet-name>
         <url-pattern>/userinfo</url-pattern>
     </servlet-mapping>
+
+    <listener>
+        <listener-class>org.example.UserActivityListener</listener-class>
+    </listener>
 </web-app>
