@@ -1,18 +1,20 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Enter</title>
+    <title>Вход в систему</title>
 </head>
 <body>
-    <h1>Enter form</h1>
-    <% if (request.getAttribute("error") != null) { %>
-        <p style="color:red"><%= request.getAttribute("error") %></p>
-    <% } %>
-    <form action="login" method="POST">
-        <label>Login: <input type="text" name="username"></label><br><br>
-        <label>Password: <input type="password" name="password"></label><br><br>
-        <input type="submit" value="Sign in">
+    <h1>Авторизация</h1>
+
+    <c:if test="${not empty error}">
+        <p style="color:red">${error}</p>
+    </c:if>
+
+    <form action="login" method="post">
+        <label>Логин: <input type="text" name="username"></label><br>
+        <label>Пароль: <input type="password" name="password"></label><br>
+        <button type="submit">Войти</button>
     </form>
 </body>
 </html>

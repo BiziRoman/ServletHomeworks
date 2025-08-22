@@ -3,38 +3,48 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
-    
-    <servlet>
-        <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>org.example.LoginServlet</servlet-class>
-    </servlet>
-    
-    <servlet>
-        <servlet-name>WelcomeServlet</servlet-name>
-        <servlet-class>org.example.WelcomeServlet</servlet-class>
-    </servlet>
 
-    <servlet>
-        <servlet-name>UserInfoServlet</servlet-name>
-        <servlet-class>org.example.UserInfoServlet</servlet-class>
-    </servlet>
+    <welcome-file-list>
+        <welcome-file>login.jsp</welcome-file>
+    </welcome-file-list>
 
-    <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/login</url-pattern>
-    </servlet-mapping>
+    <!-- Настройка приветственной страницы -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>catalog.jsp</welcome-file>
+    </welcome-file-list>
 
-    <servlet-mapping>
-        <servlet-name>WelcomeServlet</servlet-name>
-        <url-pattern>/welcome</url-pattern>
-    </servlet-mapping>
+    <!-- Базовая конфигурация JSP -->
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+            <scripting-invalid>false</scripting-invalid>
+        </jsp-property-group>
+    </jsp-config>
 
-    <servlet-mapping>
-        <servlet-name>UserInfoServlet</servlet-name>
-        <url-pattern>/userinfo</url-pattern>
-    </servlet-mapping>
+    <!-- Настройка кодировки для JSTL -->
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.locale</param-name>
+        <param-value>ru</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.timeZone</param-name>
+        <param-value>Europe/Moscow</param-value>
+    </context-param>
 
-    <listener>
-        <listener-class>org.example.UserActivityListener</listener-class>
-    </listener>
+    <!-- Настройка сессий -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+    <!-- Настройка MIME-типов -->
+    <mime-mapping>
+        <extension>html</extension>
+        <mime-type>text/html</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>jsp</extension>
+        <mime-type>text/html</mime-type>
+    </mime-mapping>
 </web-app>
