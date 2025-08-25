@@ -1,51 +1,51 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Корзина</title>
-    <fmt:setLocale value="ru_RU" />
-    <fmt:setTimeZone value="Europe/Moscow" />
 </head>
 <body>
     <h1>Корзина покупок</h1>
 
-    <c:choose>
-        <c:when test="${empty cartItems || cartItems.size() == 0}">
-            <p>Корзина пуста</p>
-        </c:when>
-        <c:otherwise>
-            <table border="1" style="width:100%;">
+    <c:if test="${empty cart.products}">
+        <p>Корзина пуста</p>
+    </c:if>
+    <c:if test="${not empty cart.products}">
+        <table border="1">
+            <tr>
+                <th>Название</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th>Сумма</th>
+                <th>Действия</th>
+            </tr>
+            <c:forEach var="entry" items="${cart.products}">
                 <tr>
-                    <th>Название</th>
-                    <th>Цена</th>
-                    <th>Количество</th>
-                    <th>Сумма</th>
-                    <th>Действия</th>
+                    <td>${entry.value.name}</td>
+                    <td>${entry.value.price}</td>
+                    <td>
+                        <form action="/cart" method="post">
+                            <input type="hidden" name="productId" value="${entry.key}">
+                            <input type="number" name="quantity" value="${cart.quantities[entry.key]}" min="1">
+                            <input type="submit" value="Обновить">
+                        </form>
+                    </td>
+                    <td>${entry.value.price * cart.quantities[entry.key]}</td>
+                    <td>
+                        <form action="/cart" method="post">
+                            <input type="hidden" name="productId" value="${entry.key}">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="submit" value="Удалить">
+                        </form>
+                    </td>
                 </tr>
-                <c:forEach var="item" items="${cartItems}" varStatus="status">
-                    <tr>
-                        <td>${item.product.name}</td>
-                        <td><fmt:formatNumber value="${item.product.price}" pattern="#,##0.00" /> ₽</td>
-                        <td>${item.quantity}</td>
-                        <td><fmt:formatNumber value="${item.product.price * item.quantity}" pattern="#,##0.00" /> ₽</td>
-                        <td>
-                            <a href="remove-from-cart?productId=${item.product.id}">Удалить</a>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>
+            </c:forEach>
+        </table>
+    </c:if>
 
-            <p>Общая сумма: <fmt:formatNumber value="${totalPrice}" pattern="#,##0.00" /> ₽</p>
-        </c:otherwise>
-    </c:choose>
-
-    <div style="margin-top: 20px;">
-        <a href="catalog">Продолжить покупки</a>
-        <c:if test="${not empty cartItems}">
-            <a href="checkout">Оформить заказ</a>
-        </c:if>
-    </div>
+    <h2>Итого: <fmt:formatNumber value="${cart.totalPrice}" pattern="#,###.##" /> руб.</h2>
+    <a href="catalog">Продолжить покупки</a>
+    <a href="order">Оформить заказ</a>
 </body>
 </html>
